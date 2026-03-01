@@ -32,6 +32,7 @@ Capabilities roadmap for v1:
 -  [ ] Implement tokenized contract = contract + tokenized data for dynamic parsing and flexibility in the UI
 -  [ ] Optimize code and explore approach for caching contracts (compile-time models, should be feasible)
 -  [ ] Implement complex versioning -> Contract version + elements version
+-  [ ] Publish v1 to NuGet
 
 How to use it:
 
