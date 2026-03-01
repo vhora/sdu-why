@@ -20,8 +20,10 @@ public class SampleProductContract
 
 public class SampleProductComplexItem
 {
+    [SduiContractElement("item-id", "small", "field")]
     public string ItemId { get; set; }
     
+    [SduiContractElement("tags", "small", "chip", true)]
     public string Tags { get; set; }
 
     public bool IsActive { get; set; }

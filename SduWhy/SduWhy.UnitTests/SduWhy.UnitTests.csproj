@@ -24,4 +24,10 @@
       <ProjectReference Include="..\SduWhy\SduWhy.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="TestData\ExpectedJsonPayloads\sampleProductCategory_full.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

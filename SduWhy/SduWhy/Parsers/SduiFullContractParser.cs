@@ -1,11 +1,11 @@
 using System.Reflection;
 using SduWhy.Attributes;
 
-namespace SduWhy;
+namespace SduWhy.Parsers;
 
-public static class SduiParser
+public class SduiFullContractParser : ISduiContractParser
 {
-    public static object GenerateContract<T>(T obj)
+    public Dictionary<string, object> GenerateContract<T>(T obj)
     {
         var result = new Dictionary<string, object>();
 
@@ -24,14 +24,19 @@ public static class SduiParser
         return result;
     }
 
-    private static List<Dictionary<string, object>> GetElementNodes<T>(T obj, List<Dictionary<string, object>> elements = default)
+    private List<Dictionary<string, object>> GetElementNodes<T>(T obj, List<Dictionary<string, object>> elements = default)
     {
         if (elements == null)
         {
             elements = new List<Dictionary<string, object>>();
         }
+
+        if (obj is null)
+        {
+            return elements;
+        }
         
-        foreach (var elementProperty in typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        foreach (var elementProperty in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
             if (!IsScalarLike(elementProperty.PropertyType))
             {
@@ -40,7 +45,7 @@ public static class SduiParser
                 return GetElementNodes(value, elements);
             }
             
-            var element = GetElement(obj, elementProperty);
+            var element = GetElementProperties(obj, elementProperty);
             
             if (element != null)
             {
@@ -51,7 +56,7 @@ public static class SduiParser
         return elements;
     }
 
-    private static Dictionary<string, object?>? GetElement<T>(T obj, PropertyInfo prop, Dictionary<string, object?> elementsDictionary = default)
+    private static Dictionary<string, object?>? GetElementProperties<T>(T obj, PropertyInfo prop)
     {
         var result = new Dictionary<string, object?>();
 
@@ -63,6 +68,13 @@ public static class SduiParser
             return null;
         }
         
+        var value = prop.GetValue(obj);
+        
+        if (value == null && attribute.HideIfNull)
+        {
+            return null;
+        }
+        
         var customElements = customAttribute?.GetType()
             ?.GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? Array.Empty<PropertyInfo>();
         
@@ -70,12 +82,7 @@ public static class SduiParser
         {
             if (elementProperty.Name != "TypeId")
             {
-                var value = elementProperty.GetValue(customAttribute);
-
-                if (value != null || (value == null && !attribute.HideIfNull))
-                {
-                    result.Add(elementProperty.Name, elementProperty.GetValue(customAttribute));
-                }
+                result.Add(elementProperty.Name, elementProperty.GetValue(customAttribute));
             }
         }
 
@@ -87,7 +94,7 @@ public static class SduiParser
         return result;
     }
     
-    private static bool IsScalarLike(Type t)
+    private bool IsScalarLike(Type t)
     {
         t = Nullable.GetUnderlyingType(t) ?? t;
 
