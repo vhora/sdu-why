@@ -1,4 +1,6 @@
-# sdu-why - WIP: Expected initial release by End of March 2026
+# SDU-WHY
+NOTE: WIP - Expected initial release by End of March 2026
+
 Simple C# Server-Driven UI (SDUI) contract parser from user-defined entities to avoid manual payloads creation and mapping with flexibility and standardized structure.
 
 SDU-WHY contract structure:
@@ -11,6 +13,13 @@ SDU-WHY contract structure:
   - HideIfNull
   - Custom metadata (via extending attribute)
 
+Why SDU-WHY?
+- Standard payload definition
+- Simple and extentable library for flexibility
+- No more complex mapping between data models/DTOs and SDUI contracts
+- Consistency: changing your models will automatically apply to the payload
+- Versioning: Contract versioning possible to avoid breaking changes
+
 Capabilities roadmap for v1:
 -  [x] SduiContract class-level attribute for basic SDUI properties (key, value, size, contract type, version, and hideIfNull)
 -  [x] Allow extending SduiElements attribute for custom metadata/style classes
@@ -22,6 +31,7 @@ Capabilities roadmap for v1:
 -  [ ] Implement contractOnly = contract without data
 -  [ ] Implement tokenized contract = contract + tokenized data for dynamic parsing and flexibility in the UI
 -  [ ] Optimize code and explore approach for caching contracts (compile-time models, should be feasible)
+-  [ ] Implement complex versioning -> Contract version + elements version
 
 How to use it:
 
