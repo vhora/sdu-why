@@ -5,7 +5,7 @@ using SduWhy.UnitTests.Contracts;
 
 namespace SduWhy.UnitTests;
 
-public class SduiFullContractParserTests
+public class SduiFlatContractParserTests
 {
     [SetUp]
     public void Setup()
@@ -29,13 +29,13 @@ public class SduiFullContractParserTests
         };
 
         //when
-        var contract = new SduiFullContractParser().GenerateContract(sampleProduct);
+        var contract = new SduiFlatContractParser().GenerateContract(sampleProduct);
 
         //then
         Assert.That(contract["version"], Is.EqualTo("1"));
-        Assert.That(contract["contractType"], Is.EqualTo(SduiContractType.ContractOnly));
+        Assert.That(contract["contractType"], Is.EqualTo(SduiContractType.Flat));
 
-        var elements = (List<Dictionary<string, object>>)contract["elements"];
+        var elements = (ICollection<Dictionary<string, object>>)contract["elements"];
 
         Assert.That(elements, Has.Count.EqualTo(4));
         
@@ -90,13 +90,13 @@ public class SduiFullContractParserTests
         };
 
         //when
-        var contract = new SduiFullContractParser().GenerateContract(sampleProduct);
+        var contract = new SduiFlatContractParser().GenerateContract(sampleProduct);
 
         //then
         Assert.That(contract["version"], Is.EqualTo("1"));
-        Assert.That(contract["contractType"], Is.EqualTo(SduiContractType.ContractOnly));
+        Assert.That(contract["contractType"], Is.EqualTo(SduiContractType.Flat));
 
-        var elements = (List<Dictionary<string, object>>)contract["elements"];
+        var elements = (ICollection<Dictionary<string, object>>)contract["elements"];
 
         Assert.That(elements, Has.Count.EqualTo(5));
         
@@ -152,13 +152,13 @@ public class SduiFullContractParserTests
         };
         
         //when
-        var contract = new SduiFullContractParser().GenerateContract(sampleProduct);
+        var contract = new SduiFlatContractParser().GenerateContract(sampleProduct);
 
         //then
         Assert.That(contract["version"], Is.EqualTo("1"));
-        Assert.That(contract["contractType"], Is.EqualTo(SduiContractType.ContractOnly));
+        Assert.That(contract["contractType"], Is.EqualTo(SduiContractType.Flat));
 
-        var elements = (List<Dictionary<string, object>>)contract["elements"];
+        var elements = (ICollection<Dictionary<string, object>>)contract["elements"];
 
         Assert.That(elements, Has.Count.EqualTo(3));
         
@@ -201,7 +201,7 @@ public class SduiFullContractParserTests
         };
         
         //when
-        var contract = new SduiFullContractParser().GenerateContract(sampleProduct);
+        var contract = new SduiFlatContractParser().GenerateContract(sampleProduct);
 
         //then
         var options = new JsonSerializerOptions
@@ -254,7 +254,7 @@ public class SduiFullContractParserTests
         };
 
         //when
-        var contract = new SduiFullContractParser().GenerateContract(sampleProduct);
+        var contract = new SduiFlatContractParser().GenerateContract(sampleProduct);
 
         //then
         var options = new JsonSerializerOptions

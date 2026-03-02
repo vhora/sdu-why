@@ -6,15 +6,20 @@ public enum SduiContractType
     /// <summary>
     /// Full contract + data on the payload
     /// </summary>
-    Full = 1,
+    Complex = 1,
+    
+    /// <summary>
+    /// Full contract (flatten) + data on the payload
+    /// </summary>
+    Flat = 2,
     
     /// <summary>
     /// SDUI contract only, data in a separate call
     /// </summary>
-    ContractOnly = 2,
+    ContractOnly = 3,
     
     /// <summary>
     /// Full contract with tokens for data parsing. Needs to specify token format
     /// </summary>
-    Tokenized = 3
+    Tokenized = 4
 }

@@ -5,7 +5,8 @@ public class SduiContractElementAttribute(
     string key,
     string size = default,
     string componentType = default,
-    bool hideIfNull = false)
+    bool hideIfNull = false,
+    bool preserveHierarchy = false)
     : Attribute
 {
     public string Key { get; set; } = key;
@@ -15,4 +16,6 @@ public class SduiContractElementAttribute(
     public string ComponentType { get; set; } = componentType;
 
     public bool HideIfNull { get; set; } = hideIfNull;
+    
+    public bool PreserveHierarchy { get; set; } = preserveHierarchy;
 }

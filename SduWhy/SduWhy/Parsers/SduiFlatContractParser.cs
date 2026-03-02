@@ -4,7 +4,7 @@ using SduWhy.Attributes;
 
 namespace SduWhy.Parsers;
 
-public class SduiFullContractParser : ISduiContractParser
+public class SduiFlatContractParser : ISduiContractParser
 {
     public Dictionary<string, object> GenerateContract<T>(T obj)
     {
@@ -25,7 +25,7 @@ public class SduiFullContractParser : ISduiContractParser
         return result;
     }
 
-    private static List<Dictionary<string, object>> GetElementNodes<T>(T obj, List<Dictionary<string, object>> elements = default)
+    private static HashSet<Dictionary<string, object>> GetElementNodes<T>(T obj, HashSet<Dictionary<string, object>>? elements = null, string? parentKey = null)
     {
         elements ??= [];
 
@@ -38,7 +38,7 @@ public class SduiFullContractParser : ISduiContractParser
         {
             if (IsCollection(elementProperty.PropertyType))
             {
-                var node = GetElementProperties(obj, elementProperty);
+                var node = GetElementProperties(obj, elementProperty, GetElementKey(elementProperty));
 
                 if (node != null)
                 {
@@ -52,12 +52,12 @@ public class SduiFullContractParser : ISduiContractParser
             {
                 var value = elementProperty.GetValue(obj);
                 
-                GetElementNodes(value, elements);
+                GetElementNodes(value, elements, GetElementKey(elementProperty));
                 
                 continue;
             }
             
-            var elementProperties = GetElementProperties(obj, elementProperty);
+            var elementProperties = GetElementProperties(obj, elementProperty, parentKey);
             
             if (elementProperties != null)
             {
@@ -68,7 +68,7 @@ public class SduiFullContractParser : ISduiContractParser
         return elements;
     }
 
-    private static Dictionary<string, object>? GetElementProperties<T>(T obj, PropertyInfo prop)
+    private static Dictionary<string, object>? GetElementProperties<T>(T obj, PropertyInfo prop, string? parentKey = null)
     {
         var result = new Dictionary<string, object?>();
 
@@ -90,7 +90,7 @@ public class SduiFullContractParser : ISduiContractParser
         var customElements = customAttribute?.GetType()
             ?.GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? [];
         
-        result.Add("key", attribute.Key);
+        result.Add("key", parentKey == null ? attribute.Key : $"{parentKey}.{attribute.Key}");
         result.Add("data", prop.GetValue(obj));
         result.Add("size", attribute.Size);
         result.Add("type", attribute.ComponentType);
@@ -105,7 +105,13 @@ public class SduiFullContractParser : ISduiContractParser
 
         return result;
     }
-    
+
+    private static string? GetElementKey(PropertyInfo prop)
+    {
+        var attribute = prop.GetCustomAttribute<SduiContractElementAttribute>(inherit: true);
+        
+        return attribute is { PreserveHierarchy: true } ? attribute?.Key : null;
+    }
     private static bool IsScalarLike(Type t)
     {
         t = Nullable.GetUnderlyingType(t) ?? t;

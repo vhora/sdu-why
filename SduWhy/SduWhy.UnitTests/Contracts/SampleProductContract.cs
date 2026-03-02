@@ -4,7 +4,7 @@ using SduWhy.UnitTests.CustomElements;
 
 namespace SduWhy.UnitTests.Contracts;
 
-[SduiContract("1", SduiContractType.ContractOnly)]
+[SduiContract("1", SduiContractType.Flat)]
 public class SampleProductContract
 {
     [SduiContractElement("product-id", "large", "field")]
@@ -14,7 +14,7 @@ public class SampleProductContract
     [CustomStyle("card-small", "blue")]
     public decimal Price { get; set; }
 
-    [SduiContractElement("product-price", "small", "field", true)]
+    [SduiContractElement("metadata", "small", "field", true, false)]
     public SampleProductComplexItem Metadata { get; set; }
     
     [SduiContractElement("categories", "large", "table", true)]
@@ -37,9 +37,7 @@ public class SampleProductComplexItem
 
 public class SampleCollectionItem
 {
-    [SduiContractElement("row", null, "table-row")]
     public int Row { get; set; }
 
-    [SduiContractElement("description", null, "table-row", true)]
     public string Description { get; set; }
 }
