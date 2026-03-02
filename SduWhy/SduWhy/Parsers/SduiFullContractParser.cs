@@ -90,18 +90,18 @@ public class SduiFullContractParser : ISduiContractParser
         var customElements = customAttribute?.GetType()
             ?.GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? [];
         
+        result.Add("key", attribute.Key);
+        result.Add("data", prop.GetValue(obj));
+        result.Add("size", attribute.Size);
+        result.Add("type", attribute.ComponentType);
+        
         foreach (var elementProperty in customElements)
         {
-            if (elementProperty.Name != "TypeId")
+            if (IsScalarLike(elementProperty.PropertyType))
             {
                 result.Add(elementProperty.Name, elementProperty.GetValue(customAttribute));
             }
         }
-
-        result.Add("key", attribute.Key);
-        result.Add("value", prop.GetValue(obj));
-        result.Add("size", attribute.Size);
-        result.Add("type", attribute.ComponentType);
 
         return result;
     }
@@ -119,7 +119,7 @@ public class SduiFullContractParser : ISduiContractParser
                t == typeof(Guid);
     }
     
-    public static bool IsCollection(Type type)
+    private static bool IsCollection(Type type)
     {
         type = Nullable.GetUnderlyingType(type) ?? type;
 

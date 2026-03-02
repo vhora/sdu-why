@@ -27,6 +27,12 @@
       "data": "discount",
       "size": "small",
       "type": "chip"
+    },
+    {
+      "key": "categories",
+      "data": ["Utilities", "Kitchen"],
+      "size": "large",
+      "type": "table"
     }
   ]
 }

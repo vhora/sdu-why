@@ -42,28 +42,28 @@ public class SduiFullContractParserTests
         Assert.That(elements, Has.Exactly(1)
             .Matches<Dictionary<string, object>>(e =>
                 (string)e["key"] == "product-id" &&
-                (string)e["value"] == "test#12321" &&
+                (string)e["data"] == "test#12321" &&
                 (string)e["size"] == "large" &&
                 (string)e["type"] == "field"));
         
         Assert.That(elements, Has.Exactly(1)
             .Matches<Dictionary<string, object>>(e =>
                 (string)e["key"] == "product-price" &&
-                (decimal)e["value"] == 100 &&
+                (decimal)e["data"] == 100 &&
                 (string)e["size"] == "small" &&
                 (string)e["type"] == "field"));
         
         Assert.That(elements, Has.Exactly(1)
             .Matches<Dictionary<string, object>>(e =>
                 (string)e["key"] == "item-id" &&
-                (string)e["value"] == "1999312" &&
+                (string)e["data"] == "1999312" &&
                 (string)e["size"] == "small" &&
                 (string)e["type"] == "field"));
         
         Assert.That(elements, Has.Exactly(1)
             .Matches<Dictionary<string, object>>(e =>
                 (string)e["key"] == "tags" &&
-                (string)e["value"] == "discount" &&
+                (string)e["data"] == "discount" &&
                 (string)e["size"] == "small" &&
                 (string)e["type"] == "chip"));
     }
@@ -103,35 +103,35 @@ public class SduiFullContractParserTests
         Assert.That(elements, Has.Exactly(1)
             .Matches<Dictionary<string, object>>(e =>
                 (string)e["key"] == "product-id" &&
-                (string)e["value"] == "test#12321" &&
+                (string)e["data"] == "test#12321" &&
                 (string)e["size"] == "large" &&
                 (string)e["type"] == "field"));
         
         Assert.That(elements, Has.Exactly(1)
             .Matches<Dictionary<string, object>>(e =>
                 (string)e["key"] == "product-price" &&
-                (decimal)e["value"] == 100 &&
+                (decimal)e["data"] == 100 &&
                 (string)e["size"] == "small" &&
                 (string)e["type"] == "field"));
         
         Assert.That(elements, Has.Exactly(1)
             .Matches<Dictionary<string, object>>(e =>
                 (string)e["key"] == "item-id" &&
-                (string)e["value"] == "1999312" &&
+                (string)e["data"] == "1999312" &&
                 (string)e["size"] == "small" &&
                 (string)e["type"] == "field"));
         
         Assert.That(elements, Has.Exactly(1)
             .Matches<Dictionary<string, object>>(e =>
                 (string)e["key"] == "tags" &&
-                (string)e["value"] == "discount" &&
+                (string)e["data"] == "discount" &&
                 (string)e["size"] == "small" &&
                 (string)e["type"] == "chip"));
         
         Assert.That(elements, Has.Exactly(1)
             .Matches<Dictionary<string, object>>(e =>
                 (string)e["key"] == "categories" &&
-                ((IEnumerable<string>)e["value"]).SequenceEqual(["Utilities", "Kitchen"]) &&
+                ((IEnumerable<string>)e["data"]).SequenceEqual(["Utilities", "Kitchen"]) &&
                 (string)e["size"] == "large" &&
                 (string)e["type"] == "table"));
     }
@@ -165,21 +165,21 @@ public class SduiFullContractParserTests
         Assert.That(elements, Has.Exactly(1)
             .Matches<Dictionary<string, object>>(e =>
                 (string)e["key"] == "product-id" &&
-                (string)e["value"] == "test#12321" &&
+                (string)e["data"] == "test#12321" &&
                 (string)e["size"] == "large" &&
                 (string)e["type"] == "field"));
         
         Assert.That(elements, Has.Exactly(1)
             .Matches<Dictionary<string, object>>(e =>
                 (string)e["key"] == "product-price" &&
-                (decimal)e["value"] == 100 &&
+                (decimal)e["data"] == 100 &&
                 (string)e["size"] == "small" &&
                 (string)e["type"] == "field"));
         
         Assert.That(elements, Has.Exactly(1)
             .Matches<Dictionary<string, object>>(e =>
                 (string)e["key"] == "item-id" &&
-                (string)e["value"] == "1999312" &&
+                (string)e["data"] == "1999312" &&
                 (string)e["size"] == "small" &&
                 (string)e["type"] == "field"));
     }
@@ -242,6 +242,14 @@ public class SduiFullContractParserTests
             [
                 "Utilities",
                 "Kitchen"
+            ],
+            Comments = 
+            [
+                new SampleCollectionItem
+                {
+                    Row = 1,
+                    Description = "Comment"
+                }
             ]
         };
 

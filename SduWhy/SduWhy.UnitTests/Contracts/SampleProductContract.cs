@@ -19,6 +19,9 @@ public class SampleProductContract
     
     [SduiContractElement("categories", "large", "table", true)]
     public List<string> Categories { get; set; }
+    
+    [SduiContractElement("comments", "large", "table", true)]
+    public List<SampleCollectionItem> Comments { get; set; }
 }
 
 public class SampleProductComplexItem
@@ -30,4 +33,13 @@ public class SampleProductComplexItem
     public string Tags { get; set; }
 
     public bool IsActive { get; set; }
+}
+
+public class SampleCollectionItem
+{
+    [SduiContractElement("row", null, "table-row")]
+    public int Row { get; set; }
+
+    [SduiContractElement("description", null, "table-row", true)]
+    public string Description { get; set; }
 }

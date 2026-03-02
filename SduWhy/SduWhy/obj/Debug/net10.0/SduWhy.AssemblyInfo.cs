@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SduWhy")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b6b44180b1c6fa2f021fdcf0994a23be9cb2c27")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+370c3536937158f63027731fd3cf3fb69d5b21b5")]
 [assembly: System.Reflection.AssemblyProductAttribute("SduWhy")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SduWhy")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

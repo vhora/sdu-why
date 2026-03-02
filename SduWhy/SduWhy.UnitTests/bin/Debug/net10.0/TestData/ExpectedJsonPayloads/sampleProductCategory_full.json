@@ -4,7 +4,7 @@
   "elements": [
     {
       "key": "product-id",
-      "value": "test#12321",
+      "data": "test#12321",
       "size": "large",
       "type": "field"
     },
@@ -12,19 +12,19 @@
       "Class": "card-small",
       "Color": "blue",
       "key": "product-price",
-      "value": 100,
+      "data": 100,
       "size": "small",
       "type": "field"
     },
     {
       "key": "item-id",
-      "value": "1999312",
+      "data": "1999312",
       "size": "small",
       "type": "field"
     },
     {
       "key": "tags",
-      "value": "discount",
+      "data": "discount",
       "size": "small",
       "type": "chip"
     }
