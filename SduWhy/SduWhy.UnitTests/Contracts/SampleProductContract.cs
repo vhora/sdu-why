@@ -16,6 +16,9 @@ public class SampleProductContract
 
     [SduiContractElement("product-price", "small", "field", true)]
     public SampleProductComplexItem Metadata { get; set; }
+    
+    [SduiContractElement("categories", "large", "table", true)]
+    public List<string> Categories { get; set; }
 }
 
 public class SampleProductComplexItem

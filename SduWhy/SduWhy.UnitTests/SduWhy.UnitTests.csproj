@@ -28,6 +28,9 @@
       <None Update="TestData\ExpectedJsonPayloads\sampleProductCategory_full.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\ExpectedJsonPayloads\sampleProductCategory_simpleCollection_full.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

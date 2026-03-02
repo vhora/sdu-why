@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Reflection;
 using SduWhy.Attributes;
 
@@ -24,39 +25,50 @@ public class SduiFullContractParser : ISduiContractParser
         return result;
     }
 
-    private List<Dictionary<string, object>> GetElementNodes<T>(T obj, List<Dictionary<string, object>> elements = default)
+    private static List<Dictionary<string, object>> GetElementNodes<T>(T obj, List<Dictionary<string, object>> elements = default)
     {
-        if (elements == null)
-        {
-            elements = new List<Dictionary<string, object>>();
-        }
+        elements ??= [];
 
         if (obj is null)
         {
             return elements;
         }
         
-        foreach (var elementProperty in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        foreach (var elementProperty in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Public))
         {
+            if (IsCollection(elementProperty.PropertyType))
+            {
+                var node = GetElementProperties(obj, elementProperty);
+
+                if (node != null)
+                {
+                    elements.Add(node);
+                }
+                
+                continue;
+            }
+            
             if (!IsScalarLike(elementProperty.PropertyType))
             {
                 var value = elementProperty.GetValue(obj);
                 
-                return GetElementNodes(value, elements);
+                GetElementNodes(value, elements);
+                
+                continue;
             }
             
-            var element = GetElementProperties(obj, elementProperty);
+            var elementProperties = GetElementProperties(obj, elementProperty);
             
-            if (element != null)
+            if (elementProperties != null)
             {
-                elements.Add(element);
+                elements.Add(elementProperties);
             }
         }
         
         return elements;
     }
 
-    private static Dictionary<string, object?>? GetElementProperties<T>(T obj, PropertyInfo prop)
+    private static Dictionary<string, object>? GetElementProperties<T>(T obj, PropertyInfo prop)
     {
         var result = new Dictionary<string, object?>();
 
@@ -76,7 +88,7 @@ public class SduiFullContractParser : ISduiContractParser
         }
         
         var customElements = customAttribute?.GetType()
-            ?.GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? Array.Empty<PropertyInfo>();
+            ?.GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? [];
         
         foreach (var elementProperty in customElements)
         {
@@ -94,7 +106,7 @@ public class SduiFullContractParser : ISduiContractParser
         return result;
     }
     
-    private bool IsScalarLike(Type t)
+    private static bool IsScalarLike(Type t)
     {
         t = Nullable.GetUnderlyingType(t) ?? t;
 
@@ -105,5 +117,12 @@ public class SduiFullContractParser : ISduiContractParser
                t == typeof(DateTimeOffset) ||
                t == typeof(TimeSpan) ||
                t == typeof(Guid);
+    }
+    
+    public static bool IsCollection(Type type)
+    {
+        type = Nullable.GetUnderlyingType(type) ?? type;
+
+        return type != typeof(string) && typeof(IEnumerable).IsAssignableFrom(type);
     }
 }

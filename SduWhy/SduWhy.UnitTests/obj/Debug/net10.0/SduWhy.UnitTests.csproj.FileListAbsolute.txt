@@ -320,3 +320,4 @@
 /Users/victordahora/RiderProjects/sdu-why/SduWhy/SduWhy.UnitTests/obj/Debug/net10.0/SduWhy.UnitTests.genruntimeconfig.cache
 /Users/victordahora/RiderProjects/sdu-why/SduWhy/SduWhy.UnitTests/obj/Debug/net10.0/ref/SduWhy.UnitTests.dll
 /Users/victordahora/RiderProjects/sdu-why/SduWhy/SduWhy.UnitTests/bin/Debug/net10.0/TestData/ExpectedJsonPayloads/sampleProductCategory_full.json
+/Users/victordahora/RiderProjects/sdu-why/SduWhy/SduWhy.UnitTests/bin/Debug/net10.0/TestData/ExpectedJsonPayloads/sampleProductCategory_simpleCollection_full.json
