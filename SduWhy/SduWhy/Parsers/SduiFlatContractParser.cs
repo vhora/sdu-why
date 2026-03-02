@@ -20,12 +20,12 @@ public class SduiFlatContractParser : ISduiContractParser
 
         var elements = GetElementNodes(obj);
 
-        result.Add("elements", elements);
+        result.Add("elements", elements.Values);
 
         return result;
     }
 
-    private static HashSet<Dictionary<string, object>> GetElementNodes<T>(T obj, HashSet<Dictionary<string, object>>? elements = null, string? parentKey = null)
+    private static Dictionary<string, Dictionary<string, object>> GetElementNodes<T>(T obj, Dictionary<string, Dictionary<string, object>>? elements = null, string? parentKey = null)
     {
         elements ??= [];
 
@@ -36,13 +36,15 @@ public class SduiFlatContractParser : ISduiContractParser
         
         foreach (var elementProperty in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Public))
         {
+            var elementKey = GetElementKey(elementProperty);
+            
             if (IsCollection(elementProperty.PropertyType))
             {
-                var node = GetElementProperties(obj, elementProperty, GetElementKey(elementProperty));
+                var node = GetElementProperties(obj, elementProperty, elementKey);
 
                 if (node != null)
                 {
-                    elements.Add(node);
+                    elements.Add(elementKey, node);
                 }
                 
                 continue;
@@ -61,7 +63,7 @@ public class SduiFlatContractParser : ISduiContractParser
             
             if (elementProperties != null)
             {
-                elements.Add(elementProperties);
+                elements.Add(elementKey, elementProperties);
             }
         }
         
@@ -90,7 +92,7 @@ public class SduiFlatContractParser : ISduiContractParser
         var customElements = customAttribute?.GetType()
             ?.GetProperties(BindingFlags.Instance | BindingFlags.Public) ?? [];
         
-        result.Add("key", parentKey == null ? attribute.Key : $"{parentKey}.{attribute.Key}");
+        result.Add("key",  BuildElementKey(attribute, parentKey));
         result.Add("data", prop.GetValue(obj));
         result.Add("size", attribute.Size);
         result.Add("type", attribute.ComponentType);
@@ -110,8 +112,19 @@ public class SduiFlatContractParser : ISduiContractParser
     {
         var attribute = prop.GetCustomAttribute<SduiContractElementAttribute>(inherit: true);
         
-        return attribute is { PreserveHierarchy: true } ? attribute?.Key : null;
+        return attribute?.Key;
     }
+    
+    private static string? BuildElementKey(SduiContractElementAttribute attribute, string? parentKey = null)
+    {
+        if (attribute.PreserveHierarchy && parentKey != null)
+        {
+            return $"{parentKey}.{attribute.Key}";
+        }
+        
+        return attribute.Key;
+    }
+    
     private static bool IsScalarLike(Type t)
     {
         t = Nullable.GetUnderlyingType(t) ?? t;
