@@ -242,6 +242,51 @@ public class SduiFlatContractParserTests
             [
                 "Utilities",
                 "Kitchen"
+            ]
+        };
+
+        //when
+        var contract = new SduiFlatContractParser().GenerateContract(sampleProduct);
+
+        //then
+        var options = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
+        var actualJson = JsonSerializer.Serialize(contract, options);
+        
+        var expectedJson = File.ReadAllText(
+            Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData/ExpectedJsonPayloads", "sampleProductCategory_simpleCollection_full.json")
+        );
+
+        using var actualDoc = JsonDocument.Parse(actualJson);
+        using var expectedDoc = JsonDocument.Parse(expectedJson);
+
+        Assert.That(
+            JsonElement.DeepEquals(actualDoc.RootElement, expectedDoc.RootElement),
+            Is.True
+        );
+    }
+    
+    [Test]
+    public void ParseSdui_ToJson_SampleProductContract_ComplexCollection_ShouldPass()
+    {
+        //given
+        var sampleProduct = new SampleProductContract
+        {
+            ProductId = "test#12321",
+            Price = 100,
+            Metadata = new SampleProductComplexItem
+            {
+                ItemId = "1999312",
+                Tags = "discount",
+                IsActive = true
+            },
+            Categories =
+            [
+                "Utilities",
+                "Kitchen"
             ],
             Comments = 
             [
@@ -265,7 +310,7 @@ public class SduiFlatContractParserTests
         var actualJson = JsonSerializer.Serialize(contract, options);
         
         var expectedJson = File.ReadAllText(
-            Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData/ExpectedJsonPayloads", "sampleProductCategory_simpleCollection_full.json")
+            Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData/ExpectedJsonPayloads", "sampleProductCategory_complexCollection_full.json")
         );
 
         using var actualDoc = JsonDocument.Parse(actualJson);

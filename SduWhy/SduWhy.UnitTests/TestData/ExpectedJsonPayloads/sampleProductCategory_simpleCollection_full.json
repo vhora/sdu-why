@@ -1,40 +1,38 @@
 {
-  "version" : "1",
-  "contractType" : 2,
-  "elements" : [ {
-    "key" : "product-id",
-    "data" : "test#12321",
-    "size" : "large",
-    "type" : "field"
-  }, {
-    "key" : "product-price",
-    "data" : 100,
-    "size" : "small",
-    "type" : "field",
-    "Class" : "card-small",
-    "Color" : "blue"
-  }, {
-    "key" : "item-id",
-    "data" : "1999312",
-    "size" : "small",
-    "type" : "field"
-  }, {
-    "key" : "tags",
-    "data" : "discount",
-    "size" : "small",
-    "type" : "chip"
-  }, {
-    "key" : "categories",
-    "data" : [ "Utilities", "Kitchen" ],
-    "size" : "large",
-    "type" : "table"
-  }, {
-    "key" : "comments",
-    "data" : [ {
-      "row" : 1,
-      "description" : "Comment"
-    } ],
-    "size" : "large",
-    "type" : "table"
-  } ]
+  "version": "1",
+  "contractType": 2,
+  "elements": [
+    {
+      "key": "product-id",
+      "data": "test#12321",
+      "size": "large",
+      "type": "field"
+    },
+    {
+      "Class": "card-small",
+      "Color": "blue",
+      "key": "product-price",
+      "data": 100,
+      "size": "small",
+      "type": "field"
+    },
+    {
+      "key": "item-id",
+      "data": "1999312",
+      "size": "small",
+      "type": "field"
+    },
+    {
+      "key": "tags",
+      "data": "discount",
+      "size": "small",
+      "type": "chip"
+    },
+    {
+      "key": "categories",
+      "data": ["Utilities", "Kitchen"],
+      "size": "large",
+      "type": "table"
+    }
+  ]
 }
